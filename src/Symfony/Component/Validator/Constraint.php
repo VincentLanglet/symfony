@@ -285,8 +285,6 @@ abstract class Constraint
 
     /**
      * Optimizes the serialized value to minimize storage space.
-     *
-     * @internal
      */
     public function __sleep()
     {
