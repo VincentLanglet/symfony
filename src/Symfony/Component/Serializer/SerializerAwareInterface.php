@@ -13,11 +13,15 @@ namespace Symfony\Component\Serializer;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
+ *
+ * @template T of SerializerInterface
  */
 interface SerializerAwareInterface
 {
     /**
      * Sets the owning Serializer object.
+     *
+     * @psalm-param T $serializer
      */
     public function setSerializer(SerializerInterface $serializer);
 }

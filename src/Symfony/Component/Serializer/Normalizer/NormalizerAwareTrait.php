@@ -13,14 +13,20 @@ namespace Symfony\Component\Serializer\Normalizer;
 
 /**
  * @author Joel Wurtz <joel.wurtz@gmail.com>
+ *
+ * @template T of NormalizerInterface
  */
 trait NormalizerAwareTrait
 {
     /**
      * @var NormalizerInterface
+     * @psalm-var T
      */
     protected $normalizer;
 
+    /**
+     * @psalm-param T $normalizer
+     */
     public function setNormalizer(NormalizerInterface $normalizer)
     {
         $this->normalizer = $normalizer;

@@ -13,11 +13,15 @@ namespace Symfony\Component\Serializer\Normalizer;
 
 /**
  * @author Joel Wurtz <joel.wurtz@gmail.com>
+ *
+ * @template T of DenormalizerInterface
  */
 interface DenormalizerAwareInterface
 {
     /**
      * Sets the owning Denormalizer object.
+     *
+     * @psalm-param T $denormalizer
      */
     public function setDenormalizer(DenormalizerInterface $denormalizer);
 }
