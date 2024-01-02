@@ -38,6 +38,8 @@ EOF
 
 <?php echo $view['translator']->trans('other-domain-test-no-params-long-array', [], 'not_messages'); ?>
 
+<?php echo $view['translator']->trans('other-domain-as-const-test', [], \Symfony\Component\Translation\Tests\Extractor\PhpAstExtractorTest::OTHER_DOMAIN); ?>
+
 <?php echo $view['translator']->trans('other-domain-test-params-short-array', ['foo' => 'bar'], 'not_messages'); ?>
 
 <?php echo $view['translator']->trans('other-domain-test-params-long-array', ['foo' => 'bar'], 'not_messages'); ?>

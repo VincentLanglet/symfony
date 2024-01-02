@@ -20,6 +20,8 @@ use Symfony\Component\Translation\MessageCatalogue;
 
 final class PhpAstExtractorTest extends TestCase
 {
+    public const OTHER_DOMAIN = 'not_messages';
+
     /**
      * @dataProvider resourcesProvider
      */
@@ -113,6 +115,7 @@ EOF;
                 'translatable-short typecast' => 'prefixtranslatable-short typecast',
                 'other-domain-test-no-params-short-array' => 'prefixother-domain-test-no-params-short-array',
                 'other-domain-test-no-params-long-array' => 'prefixother-domain-test-no-params-long-array',
+                'other-domain-as-const-test' => 'prefixother-domain-as-const-test',
                 'other-domain-test-params-short-array' => 'prefixother-domain-test-params-short-array',
                 'other-domain-test-params-long-array' => 'prefixother-domain-test-params-long-array',
                 'typecast' => 'prefixtypecast',
