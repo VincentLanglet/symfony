@@ -22,6 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Lock\Store\SemaphoreStore;
 use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Messenger\Bridge\AmazonSqs\Transport\AmazonSqsSerializer;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Notifier\Notifier;
 use Symfony\Component\RateLimiter\Policy\TokenBucketLimiter;
@@ -559,7 +560,9 @@ class ConfigurationTest extends TestCase
                 'transports' => [],
                 'failure_transport' => null,
                 'serializer' => [
-                    'default_serializer' => 'messenger.transport.native_php_serializer',
+                    'default_serializer' => class_exists(AmazonSqsSerializer::class)
+                        ? 'messenger.transport.amazon_php_serializer'
+                        : 'messenger.transport.native_php_serializer',
                     'symfony_serializer' => [
                         'format' => 'json',
                         'context' => [],
