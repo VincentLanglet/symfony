@@ -13,7 +13,6 @@ namespace Symfony\Component\Messenger\Bridge\AmazonSqs\Tests\Transport;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Messenger\Bridge\AmazonSqs\Tests\Fixtures\DummyMessage;
-use Symfony\Component\Messenger\Bridge\AmazonSqs\Tests\Fixtures\DummyMessageTyped;
 use Symfony\Component\Messenger\Bridge\AmazonSqs\Transport\AmazonSqsSerializer;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
