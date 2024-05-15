@@ -41,21 +41,13 @@ class PhpSerializer implements SerializerInterface
 
         $body = addslashes(serialize($envelope));
 
-        if ($this->shouldBeEncoded($body)) {
+        if (!preg_match('//u', $body)) {
             $body = base64_encode($body);
         }
 
         return [
             'body' => $body,
         ];
-    }
-
-    /**
-     * Entry point to use stricter condition for base64 encoding.
-     */
-    protected function shouldBeEncoded(string $body): bool
-    {
-        return !preg_match('//u', $body);
     }
 
     private function safelyUnserialize(string $contents)

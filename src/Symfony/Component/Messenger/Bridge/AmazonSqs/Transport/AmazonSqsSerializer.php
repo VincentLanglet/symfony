@@ -11,13 +11,18 @@
 
 namespace Symfony\Component\Messenger\Bridge\AmazonSqs\Transport;
 
+use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
 
 class AmazonSqsSerializer extends PhpSerializer
 {
-    protected function shouldBeEncoded(string $body): bool
+    public function encode(Envelope $envelope): array
     {
-        return parent::shouldBeEncoded($body)
-            || preg_match('/[^\x20-\x{D7FF}\xA\xD\x9\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]/u', $body);
+        $encoded = parent::encode($envelope);
+        if (preg_match('/[^\x20-\x{D7FF}\xA\xD\x9\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]/u', $encoded['body'])) {
+            $encoded['body'] = base64_encode($encoded['body']);
+        }
+
+        return $encoded;
     }
 }

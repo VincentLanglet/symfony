@@ -36,7 +36,7 @@ class AmazonSqsSerializerTest extends TestCase
         $serializer = new AmazonSqsSerializer();
 
         $this->expectException(MessageDecodingFailedException::class);
-        $this->expectExceptionMessage('Encoded envelope should have at least a "body", or maybe you should implement your own serializer');
+        $this->expectExceptionMessage('Encoded envelope should have at least a "body"');
 
         $serializer->decode([]);
     }
@@ -50,18 +50,6 @@ class AmazonSqsSerializerTest extends TestCase
 
         $serializer->decode([
             'body' => '{"message": "bar"}',
-        ]);
-    }
-
-    public function testDecodingFailsWithBadBase64Body()
-    {
-        $serializer = new AmazonSqsSerializer();
-
-        $this->expectException(MessageDecodingFailedException::class);
-        $this->expectExceptionMessageMatches('/Could not decode/');
-
-        $serializer->decode([
-            'body' => 'x',
         ]);
     }
 
