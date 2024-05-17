@@ -12,7 +12,6 @@
 namespace Symfony\Component\DependencyInjection\Loader\Configurator;
 
 use Symfony\Component\DependencyInjection\ServiceLocator;
-use Symfony\Component\Messenger\Bridge\AmazonSqs\Transport\AmazonSqsSerializer;
 use Symfony\Component\Messenger\Bridge\AmazonSqs\Transport\AmazonSqsTransportFactory;
 use Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpTransportFactory;
 use Symfony\Component\Messenger\Bridge\Beanstalkd\Transport\BeanstalkdTransportFactory;
@@ -75,8 +74,6 @@ return static function (ContainerConfigurator $container) {
             ->tag('serializer.normalizer', ['priority' => -880])
 
         ->set('messenger.transport.native_php_serializer', PhpSerializer::class)
-
-        ->set('messenger.transport.amazon_php_serializer', AmazonSqsSerializer::class)
 
         // Middleware
         ->set('messenger.middleware.handle_message', HandleMessageMiddleware::class)

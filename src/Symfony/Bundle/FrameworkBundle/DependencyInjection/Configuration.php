@@ -32,7 +32,6 @@ use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\Lock\Lock;
 use Symfony\Component\Lock\Store\SemaphoreStore;
 use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Messenger\Bridge\AmazonSqs\Transport\AmazonSqsSerializer;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Notifier\Notifier;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -1333,10 +1332,6 @@ class Configuration implements ConfigurationInterface
 
     private function addMessengerSection(ArrayNodeDefinition $rootNode, callable $enableIfStandalone)
     {
-        $defaultSerializer = class_exists(AmazonSqsSerializer::class)
-            ? 'messenger.transport.amazon_php_serializer'
-            : 'messenger.transport.native_php_serializer';
-
         $rootNode
             ->children()
                 ->arrayNode('messenger')
@@ -1400,7 +1395,7 @@ class Configuration implements ConfigurationInterface
                             ->addDefaultsIfNotSet()
                             ->children()
                                 ->scalarNode('default_serializer')
-                                    ->defaultValue($defaultSerializer)
+                                    ->defaultValue('messenger.transport.native_php_serializer')
                                     ->info('Service id to use as the default serializer for the transports.')
                                 ->end()
                                 ->arrayNode('symfony_serializer')

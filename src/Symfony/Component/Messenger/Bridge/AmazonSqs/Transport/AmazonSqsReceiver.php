@@ -18,6 +18,7 @@ use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
 use Symfony\Component\Messenger\Exception\TransportException;
 use Symfony\Component\Messenger\Transport\Receiver\MessageCountAwareInterface;
 use Symfony\Component\Messenger\Transport\Receiver\ReceiverInterface;
+use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
 use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
 
 /**
@@ -31,7 +32,7 @@ class AmazonSqsReceiver implements ReceiverInterface, MessageCountAwareInterface
     public function __construct(Connection $connection, ?SerializerInterface $serializer = null)
     {
         $this->connection = $connection;
-        $this->serializer = $serializer ?? new AmazonSqsSerializer();
+        $this->serializer = $serializer ?? new PhpSerializer();
     }
 
     /**
