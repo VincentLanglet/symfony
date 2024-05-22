@@ -23,6 +23,8 @@ use Symfony\Component\Messenger\Transport\Serialization\SerializerInterface;
  */
 class AmazonSqsSender implements SenderInterface
 {
+    public const EXTRA_ENCODING_HEADER = 'X-Message-Extra-Encoding';
+
     private $connection;
     private $serializer;
 
@@ -88,6 +90,7 @@ class AmazonSqsSender implements SenderInterface
     {
         if (preg_match('/[^\x20-\x{D7FF}\xA\xD\x9\x{E000}-\x{FFFD}\x{10000}-\x{10FFFF}]/u', $encodedMessage['body'])) {
             $encodedMessage['body'] = base64_encode($encodedMessage['body']);
+            $encodedMessage['headers'] += [self::EXTRA_ENCODING_HEADER => true];
         }
 
         return $encodedMessage;

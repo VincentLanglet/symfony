@@ -76,7 +76,7 @@ class AmazonSqsSenderTest extends TestCase
     public function testSendEncodeBodyToRespectAmazonRequirements()
     {
         $envelope = new Envelope(new DummyMessage('Oy'));
-        $encoded = ['body' => "\x7", 'headers' => ['type' => DummyMessage::class]];
+        $encoded = ['body' => "\x7", 'headers' => ['type' => DummyMessage::class, AmazonSqsSender::EXTRA_ENCODING_HEADER => true]];
 
         $connection = $this->createMock(Connection::class);
         $connection->expects($this->once())->method('send')->with(base64_encode($encoded['body']), $encoded['headers']);

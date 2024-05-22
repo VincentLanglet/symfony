@@ -49,6 +49,10 @@ class AmazonSqsReceiver implements ReceiverInterface, MessageCountAwareInterface
             return;
         }
 
+        if ($sqsEnvelope['headers'][AmazonSqsSender::EXTRA_ENCODING_HEADER] ?? false) {
+            $sqsEnvelope['body'] = base64_decode($sqsEnvelope['body']);
+        }
+
         try {
             $envelope = $this->serializer->decode([
                 'body' => $sqsEnvelope['body'],

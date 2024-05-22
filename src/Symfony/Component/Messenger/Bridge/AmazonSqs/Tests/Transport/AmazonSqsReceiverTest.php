@@ -14,6 +14,7 @@ namespace Symfony\Component\Messenger\Bridge\AmazonSqs\Tests\Transport;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Messenger\Bridge\AmazonSqs\Tests\Fixtures\DummyMessage;
 use Symfony\Component\Messenger\Bridge\AmazonSqs\Transport\AmazonSqsReceiver;
+use Symfony\Component\Messenger\Bridge\AmazonSqs\Transport\AmazonSqsSender;
 use Symfony\Component\Messenger\Bridge\AmazonSqs\Transport\Connection;
 use Symfony\Component\Messenger\Exception\MessageDecodingFailedException;
 use Symfony\Component\Messenger\Transport\Serialization\PhpSerializer;
@@ -29,6 +30,23 @@ class AmazonSqsReceiverTest extends TestCase
         $serializer = $this->createSerializer();
 
         $sqsEnvelop = $this->createSqsEnvelope();
+        $connection = $this->createMock(Connection::class);
+        $connection->method('get')->willReturn($sqsEnvelop);
+
+        $receiver = new AmazonSqsReceiver($connection, $serializer);
+        $actualEnvelopes = iterator_to_array($receiver->get());
+        $this->assertCount(1, $actualEnvelopes);
+        $this->assertEquals(new DummyMessage('Hi'), $actualEnvelopes[0]->getMessage());
+    }
+
+    public function testItCanHandleExtraEncodedBody()
+    {
+        $serializer = $this->createSerializer();
+
+        $sqsEnvelop = $this->createSqsEnvelope();
+        $sqsEnvelop['headers'][AmazonSqsSender::EXTRA_ENCODING_HEADER] = true;
+        $sqsEnvelop['body'] = base64_encode($sqsEnvelop['body']);
+
         $connection = $this->createMock(Connection::class);
         $connection->method('get')->willReturn($sqsEnvelop);
 
