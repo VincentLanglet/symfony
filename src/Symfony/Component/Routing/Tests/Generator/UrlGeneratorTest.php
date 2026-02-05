@@ -1107,6 +1107,37 @@ class UrlGeneratorTest extends TestCase
         ]);
     }
 
+    public function testDefaultQueryParameter()
+    {
+        $routes = $this->getRoutes('user', new Route('/user/{username}', ['_query'=> ['username' => 'vince']]));
+        $url = $this->getGenerator($routes)->generate('user', [
+            'username' => 'john',
+        ]);
+        $this->assertSame('/app.php/user/john?username=vince', $url);
+    }
+
+    public function testDefaultQueryParameterIsOverridenByQueryParameter()
+    {
+        $routes = $this->getRoutes('user', new Route('/user/{username}', ['_query'=> ['username' => 'vince']]));
+        $url = $this->getGenerator($routes)->generate('user', [
+            'username' => 'john',
+            '_query' => [
+                'username' => 'bob',
+            ],
+        ]);
+        $this->assertSame('/app.php/user/john?username=bob', $url);
+    }
+
+    public function testDefaultQueryParameterCannotSubstituteRouteParameter()
+    {
+        $routes = $this->getRoutes('user', new Route('/user/{id}', ['_query'=> ['id' => '456']]));
+
+        $this->expectException(MissingMandatoryParametersException::class);
+        $this->expectExceptionMessage('Some mandatory parameters are missing ("id") to generate a URL for route "user".');
+
+        $this->getGenerator($routes)->generate('user');
+    }
+
     protected function getGenerator(RouteCollection $routes, array $parameters = [], $logger = null, ?string $defaultLocale = null)
     {
         $context = new RequestContext('/app.php');
